@@ -26,7 +26,8 @@ app.set('view engine', 'ejs');
 app.use(expressLayouts);
 
 //  BodyParser Middleware
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'angular/dist')));
+app.use('/public',express.static(path.join(__dirname, 'angular/src/public')));
 
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
@@ -59,6 +60,14 @@ app.use('/visitor', (req,res,next) =>{
 	return next();
 });
 
+
+//  Enable cors For  API functions
+app.use('/api', function(req,res,next){
+	res.header("Access-Control-Allow-Origin", "*");
+  	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	next();
+});
+
 //  Main Routes
 
 app.use('/admin', adminRouter);
@@ -66,6 +75,10 @@ app.use('/api', apiRouter);
 app.use('/employee', employeeRouter);
 app.use('/employer', employerRouter);
 app.use('/visitor', visitorRouter);
+
+//
+app.use('*', visitorRouter);
+
 
 app.use('*',errorHandlers.urlNotFoundHandler);
 

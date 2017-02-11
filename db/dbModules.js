@@ -14,7 +14,7 @@ let userSchema = new Schema({
 		active					:String,
 
 			//  Employee Fields
-			whoAmI   				:String,           //Company or individual
+			employeeType   			:String,           //Company or individual
 
 			businessName			:String,
 		    controlNumber			:String,

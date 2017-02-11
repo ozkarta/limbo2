@@ -4,8 +4,8 @@ let router = express.Router();
 
 router.route('/')
 	.get(function(req,res,next){
-
-		return res.render('./visitor/index');
+		console.log(__dirname+'/dist/index.html')
+		return res.sendFile('/home/ozkart/Desktop/NODEJS/limbo2/angular/dist/','index.html');
 	
 	});
 

@@ -112,7 +112,7 @@ function createToJobCategory(categoryVarName,type){
 //_____________________________USER_____________________________
 
 function initUserAndJobPost(){
-	User.remove({},(err) =>{
+	User.remove({$or:[{userName: 'employer1'},{userName: 'employer2'},{userName: 'employee1'},{userName: 'employee2'}]},(err) =>{
 		jobPost.remove({},() =>{
 			// Add Employers
 				let user = new User();

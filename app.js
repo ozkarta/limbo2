@@ -5,6 +5,8 @@ let mongoose = require('mongoose');
 let expressLayouts = require('express-ejs-layouts');
 let path = require('path');
 
+let ws = require('ws');
+
 //   Locals
 let config = require('./config/appConfig.js');
 let logger = require('./classes/logger.js');
@@ -21,6 +23,7 @@ let visitorRouter = require('./routes/visitorRoutes.js');
 let initDB = require('./classes/initDB');
 //  App
 let app = express();
+let WebSocketServer = ws.Server;
 
 app.set('view engine', 'ejs');
 app.use(expressLayouts);
@@ -105,4 +108,11 @@ let server = app.listen(port, () =>{
 	console.log('Limbo app is listening to ... ' +port);
 
 	initDB.initDatabase();
+});
+
+//											WS
+//  ______________________________________________________________________________________________
+let wss =new WebSocketServer({ server: server });
+wss.on('connection', function inComming(message){
+
 });

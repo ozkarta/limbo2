@@ -22,11 +22,19 @@ import { EmployeeService } from './modules/http/visitor/employee.service';
 import { EmployerHomeComponent } from  './components/employer/home-component'
 
 import { EmployerAccountComponent } from  './components/employer/account.component';
+//++++++++++++++++++++++
+import { EmployerAccountPersonalInfoComponent } from './components/employer/account/personal-info';
+import { EmployerAccountAddressComponent } from './components/employer/account/address';
+import { EmployerAccountAssotiationComponent } from './components/employer/account/assotiation';
+import { EmployerAccountChangePasswordComponent } from './components/employer/account/change-password';
+import { EmployerAccountDeactivationComponent } from './components/employer/account/deactivation';
+//______________________
 import { EmployerJobHistoryComponent } from  './components/employer/job-history.component';
 import { EmployerMessengerComponent } from  './components/employer/messenger.component';
 import { EmployerPostJobComponent } from  './components/employer/post-job.component';
 import { EmployerSubscribeComponent } from  './components/employer/subscribe.component';
 import { EmployerOfferComponent } from  './components/employer/offer.component';
+import { EditJobComponent } from  './components/employer/edit-job.component';
 //Employee
 import { EmployeeHomeComponent } from './components/employee/home-component';
 // Guards
@@ -82,6 +90,11 @@ const routes: Routes = [
                 canActivate: [EmployerGuard]
             },
             {
+                path: 'employer/edit-job/:id',
+                component: EditJobComponent,
+                canActivate: [EmployerGuard]
+            },
+            {
                 path: 'employer/subscribes',
                 component: EmployerSubscribeComponent,
                 canActivate: [EmployerGuard]
@@ -99,7 +112,25 @@ const routes: Routes = [
             {
                 path: 'employer/account',
                 component: EmployerAccountComponent,
-                canActivate: [EmployerGuard]
+                canActivate: [EmployerGuard],
+                children: [
+                            { path: '',
+                              component: EmployerAccountPersonalInfoComponent,
+                              outlet: 'account',
+                              pathMatch: 'full'  },
+                            { path: 'addresses',
+                              component: EmployerAccountAddressComponent,
+                              outlet: 'account' },
+                            { path: 'assotiation',
+                              component: EmployerAccountAssotiationComponent,
+                              outlet: 'account' },
+                            { path: 'changepassword',
+                              component: EmployerAccountChangePasswordComponent,
+                              outlet: 'account' },
+                            { path: 'deactivation',
+                              component: EmployerAccountDeactivationComponent,
+                              outlet: 'account' }
+                    ]
             },
             // Employee Routes
             {

@@ -12,7 +12,7 @@ export class VisitorGuard implements CanActivate {
 
     canActivate() {
         console.log('visitor Guard');
-        let user =JSON.parse(localStorage.getItem('currentUser'));
+        let user = JSON.parse(localStorage.getItem('currentUser'));
         console.dir(user);
 
         if (!user){

@@ -12,11 +12,10 @@ module.exports.getEmployees = function(req,res,next){
 	});
 };
 
-
 module.exports.registerEmployee = function(req, res, next){
 	console.log('Employee  registration was  confirmed');
 
-	console.dir(req.body);
+	//console.dir(req.body);
 	User.findOne({userName:req.body.employee.userName}, findWithUserNameCallback);
 
 
@@ -62,7 +61,7 @@ module.exports.registerEmployee = function(req, res, next){
 		}
 
 	}
-}
+};
 
 module.exports.registerEmployer = function(req, res, next){
 	console.log('it is here ');
@@ -110,9 +109,9 @@ module.exports.registerEmployer = function(req, res, next){
 		}
 
     //res.send({status:'everything is OK'});
-}
+};
 
-module.exports.localLogIn = function(req,res,next){
+module.exports.localLogIn = function(req, res, next){
 	console.dir(req.body);
 
 	if ( req.body ){
@@ -140,7 +139,163 @@ module.exports.localLogIn = function(req,res,next){
 	}else{
 		return res.send({status:400,message:'body not valid'});
 	}
-	
 
+};
+
+module.exports.getCategoryList = function(req, res, next){
+	jobCategory.find({type:'parent'})
+				.populate('subCategory')
+				.exec(function(err,result){
+											if (err){
+												return res.send({statu:500,message:'Internal Server Error'});
+											}
+
+											return res.send({status:200,message:'success',category:result});
+										});
+}
+
+module.exports.postJob = function(req, res, next){
+
+	console.dir(req.body);
+	if(req.body.newJobPost){
+
+		let newJobPost = new jobPost ();
+		newJobPost.owner = req.body.newJobPost.owner ;
+		newJobPost.jobCategory = req.body.newJobPost.jobCategory ;
+		newJobPost.jobSubCategory = req.body.newJobPost.jobSubCategory ;
+		newJobPost.jobTitle = req.body.newJobPost.jobTitle ;
+		newJobPost.jobDescription = req.body.newJobPost.jobDescription ;
+		newJobPost.deadLine = req.body.newJobPost.deadline ;
+		newJobPost.budget = req.body.newJobPost.budget ;
+		newJobPost.paymentType = req.body.newJobPost.paymentType ;
+		newJobPost.projectType = req.body.newJobPost.projectType ;
+		//newJobPost.status = req.body.newJobPost.status ;
+		newJobPost.status = 'active';
+		newJobPost.requirements = req.body.newJobPost.requirements ;
+		newJobPost.candidates = req.body.newJobPost.candidates ;
+		newJobPost.imageURLList = req.body.newJobPost.imageURLList ;
+		newJobPost.atachmentList = req.body.newJobPost.atachmentList ;
+
+		newJobPost.save(function(err,result){
+
+			if (err){
+				return res.send({status:500,message:'internal server error'});
+			}
+
+			if (result){
+				return res.send({status:200,message:'ok'});
+			}
+
+		});
+
+	}else{
+		return res.send({status:400,message:'No Job Post Presented'});
+	}
 
 }
+
+module.exports.updateJob = function(req, res, next){
+	
+	console.dir(req.body);
+
+	if (!req.body.newJobPost.id){
+		return res.send({status:400,message:'Job Id is not presented'});
+	}
+
+	jobPost.findOne({_id:req.body.newJobPost.id}, function(err,newJobPost){
+		if(err){
+			return res.send({status:500,message:'internal server error'});
+		}
+
+		if(req.body.newJobPost){
+
+			//let newJobPost = new jobPost ();
+			newJobPost.owner = req.body.newJobPost.owner ;
+			newJobPost.jobCategory = req.body.newJobPost.jobCategory ;
+			newJobPost.jobSubCategory = req.body.newJobPost.jobSubCategory ;
+			newJobPost.jobTitle = req.body.newJobPost.jobTitle ;
+			newJobPost.jobDescription = req.body.newJobPost.jobDescription ;
+			newJobPost.deadLine = req.body.newJobPost.deadline ;
+			newJobPost.budget = req.body.newJobPost.budget ;
+			newJobPost.paymentType = req.body.newJobPost.paymentType ;
+			newJobPost.projectType = req.body.newJobPost.projectType ;
+			//newJobPost.status = req.body.newJobPost.status ;
+			newJobPost.status = 'active';
+			newJobPost.requirements = req.body.newJobPost.requirements ;
+			newJobPost.candidates = req.body.newJobPost.candidates ;
+			newJobPost.imageURLList = req.body.newJobPost.imageURLList ;
+			newJobPost.atachmentList = req.body.newJobPost.atachmentList ;
+
+			console.dir(newJobPost);
+
+
+			newJobPost.save(function(err1,result){
+
+				if (err1){
+					return res.send({status:500,message:'internal server error'});
+				}
+
+				if (result){
+					return res.send({status:200,message:'ok',post:result});
+				}
+
+			});
+
+			 // return res.send({status:200,message:'ok',post:newJobPost});
+
+		}else{
+			return res.send({status:400,message:'No Job Post Presented'});
+		}
+
+	});
+	
+
+}
+
+module.exports.getUserPostedJobs = function(req,res,next){
+
+	//console.dir(req.body);
+
+
+	if (!req.body.owner){
+		return res.send({status:400,message:'no user presented'});
+	}
+
+	jobPost.find({owner:req.body.owner}, function(err,result){
+		
+		if(err){
+			return res.send({status:500,message:'Internal Server Error'});
+		}
+		//console.dir(result);
+
+		return res.send({status:200,message:'ok',PostList:result});
+		
+	});
+}
+
+module.exports.getUserPostedJobWithId = function(req, res, next){
+	//console.dir(req.body);
+
+
+	if (!req.body.owner){
+		return res.send({status:400,message:'no user presented'});
+	}
+
+	if (!req.body.jobID){
+		return res.send({status:400,message:'no ID presented'});
+	}
+
+	jobPost.find({owner:req.body.owner,_id:req.body.jobID})
+			.populate('')
+			.exec(function(err,result){
+		
+				if(err){
+					return res.send({status:500,message:'Internal Server Error'});
+				}
+				//console.dir(result);
+
+				return res.send({status:200,message:'ok',PostList:result});
+				
+			});
+}
+

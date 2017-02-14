@@ -11,43 +11,45 @@ module.exports.initDatabase = function(){
 //____________________________JOB CATEGORY_____________________
 function initJobCategory(){
 
-	jobCategory.remove({},function(err){
-		if(!err){
-			let categoryArray = [];
-
-			let idSaver=[];
-			let arr = [{sub:'სახლი'},{sub:'outdoor'},{sub:'avto/moto'},{sub:'eleqtro teqnika'},{par:'xeloba/sheketeba'}];
+	jobCategory.find({},function(err,result){
+		
 			
-			syncSaveCategory(arr,idSaver,0,arr.length,()=>{
-				idSaver = [];
-				arr = [{sub:'ავტო ტრანსპორტირება'},{sub:'საშენი მასალა'},{sub:'საკვები პროდუქტი'},{sub:'ნარჩენების გატანა/გადაზიდვა'},{sub:'სახლის ტექნიკის/ავეჯის ტრანსპორტირება'},{sub:'ადამიანების ტრანსპორტირება'},{par:'გადაზიდვა'}]
 
-				syncSaveCategory(arr,idSaver,0,arr.length,()=>{
-					idSaver = [];
-					arr = [{sub:'საშენი მასალა'},{sub:'საკვები პროდუქცია'},{sub:'თამბაქო'},{sub:'ალკოჰოლი'},{sub:'საავტომობილოო ნაწილები'},{sub:'ელექტრო ტექნიკა'},{par:'წარმოება / საწყობი'}]
 
+			if(result.length === 0 ){
+				if(!err){
+					let categoryArray = [];
+
+					let idSaver=[];
+					let arr = [{sub:'სახლი'},{sub:'outdoor'},{sub:'avto/moto'},{sub:'eleqtro teqnika'},{par:'xeloba/sheketeba'}];
+					
 					syncSaveCategory(arr,idSaver,0,arr.length,()=>{
 						idSaver = [];
-						arr = [{sub:'მუშა'},{sub:'ინფორმაციული ტექნოლოგიები'},{sub:'ეკონომისტი'},{sub:'მენეჯმენტი'},{sub:'მარკეტინგი'},
-								{sub:'გაყიდვები'},{sub:'იურიდიული'},{sub:'სასტუმრო/რესტორანი/კვება'},{sub:'ჯანდაცვა'},{sub:'დაცვა/უსაფრთხოება'},
-								{sub:'ელექტრო ინჟინერია'},{sub:'ტურიზმი'},{sub:'დიზაინი'},{sub:'განათლება'},{sub:'სპორტი'},{par:'Human Resourses'}]
+						arr = [{sub:'ავტო ტრანსპორტირება'},{sub:'საშენი მასალა'},{sub:'საკვები პროდუქტი'},{sub:'ნარჩენების გატანა/გადაზიდვა'},{sub:'სახლის ტექნიკის/ავეჯის ტრანსპორტირება'},{sub:'ადამიანების ტრანსპორტირება'},{par:'გადაზიდვა'}]
+
 						syncSaveCategory(arr,idSaver,0,arr.length,()=>{
 							idSaver = [];
-							arr = [{sub:'უსაფრთხოების სისტემები'},{sub:'ქსელური მოწყობილობები'},{sub:'გათბობიბ სისტემები'},
-							{sub:'ვენტილაციის სისტემები'},{sub:'საირიგაციო სისტემები'},{par:'მონტაჟი'}]
+							arr = [{sub:'საშენი მასალა'},{sub:'საკვები პროდუქცია'},{sub:'თამბაქო'},{sub:'ალკოჰოლი'},{sub:'საავტომობილოო ნაწილები'},{sub:'ელექტრო ტექნიკა'},{par:'წარმოება / საწყობი'}]
 
 							syncSaveCategory(arr,idSaver,0,arr.length,()=>{
-								initUserAndJobPost();
+								idSaver = [];
+								arr = [{sub:'მუშა'},{sub:'ინფორმაციული ტექნოლოგიები'},{sub:'ეკონომისტი'},{sub:'მენეჯმენტი'},{sub:'მარკეტინგი'},
+										{sub:'გაყიდვები'},{sub:'იურიდიული'},{sub:'სასტუმრო/რესტორანი/კვება'},{sub:'ჯანდაცვა'},{sub:'დაცვა/უსაფრთხოება'},
+										{sub:'ელექტრო ინჟინერია'},{sub:'ტურიზმი'},{sub:'დიზაინი'},{sub:'განათლება'},{sub:'სპორტი'},{par:'Human Resourses'}]
+								syncSaveCategory(arr,idSaver,0,arr.length,()=>{
+									idSaver = [];
+									arr = [{sub:'უსაფრთხოების სისტემები'},{sub:'ქსელური მოწყობილობები'},{sub:'გათბობიბ სისტემები'},
+									{sub:'ვენტილაციის სისტემები'},{sub:'საირიგაციო სისტემები'},{par:'მონტაჟი'}]
+
+									syncSaveCategory(arr,idSaver,0,arr.length,()=>{
+										initUserAndJobPost();
+									});
+								});
 							});
 						});
 					});
-				});
-			});
 
-			
-
-
-
+			}
 
 			
 
@@ -112,88 +114,93 @@ function createToJobCategory(categoryVarName,type){
 //_____________________________USER_____________________________
 
 function initUserAndJobPost(){
-	User.remove({$or:[{userName: 'employer1'},{userName: 'employer2'},{userName: 'employee1'},{userName: 'employee2'}]},(err) =>{
-		jobPost.remove({},() =>{
-			// Add Employers
-				let user = new User();
-				user.userRole = 'employer';
-				user.passwordTrial = '12qwert12';
-				user.userName = 'employer1';
+	User.find({},(err,res1) =>{
+		if(res1.length == 0){
+			jobPost.find({},(err2,res2) =>{
+				if(res2.length == 0 ){
+					// Add Employers
+					let user = new User();
+					user.userRole = 'employer';
+					user.passwordTrial = '12qwert12';
+					user.userName = 'employer1';
 
-				user.email = 'ozbegi1@gmail.com';
-				user.contactPhone = '+995 568 208 075';
-				user.fName = 'ოზბეგი';
-				user.lName = 'ქართველიშვილი';
+					user.email = 'ozbegi1@gmail.com';
+					user.contactPhone = '+995 568 208 075';
+					user.fName = 'ოზბეგი';
+					user.lName = 'ქართველიშვილი';
 
-				user.save((err,employer) =>{
-					console.log('employer added');
-					console.log('userName:  '+employer.userName);
-					console.log('Password:  '+employer.passwordTrial);
-
-
-					let jobDescription = 'სახლის გარემონტება მინდა, დაახლოებით 100 კვ მეტრი ფართობი, ძაან კარგი რემონტით';
-
-					initJobPost(employer,'სახლის რემონტი',jobDescription,new Date(2017,12,30),'2000 $','Fixed', 'One Time','xeloba/sheketeba','' )
-
-				});
+					user.save((err,employer) =>{
+						console.log('employer added');
+						console.log('userName:  '+employer.userName);
+						console.log('Password:  '+employer.passwordTrial);
 
 
-				user = new User();
-				user.userRole = 'employer';
-				user.passwordTrial = '12qwert12';
-				user.userName = 'employer2';
+						let jobDescription = 'სახლის გარემონტება მინდა, დაახლოებით 100 კვ მეტრი ფართობი, ძაან კარგი რემონტით';
 
-				user.email = 'ozbegi1@gmail.com';
-				user.contactPhone = '+995 598 260 802';
-				user.fName = 'ირაკლი';
-				user.lName = 'ქართველიშვილი';
+						initJobPost(employer,'სახლის რემონტი',jobDescription,new Date(2017,12,30),'2000 $','Fixed', 'One Time','xeloba/sheketeba','' )
 
-				user.save((err,employer) =>{
-					console.log('employer added');
-					console.log('userName:  '+employer.userName);
-					console.log('Password:  '+employer.passwordTrial);
-
-					let jobDescription = 'სახლი გავყიდე თბილისში და გადავდივარ რაიონში, მინდა გადავიტანო არსებული ჭურჭელი, ავეჯი, ჭიათურაში, დაახლოებით 180 კმ ია მანძილი, შემომთავაზეთ გადაზიდვის საფასური.';
-
-					initJobPost(employer,'ავეჯის გადატანა',jobDescription,new Date(2017,1,30),'400 $','Fixed', 'One Time','გადაზიდვა','' )
-
-				});
+					});
 
 
-				// Add Employees
+					user = new User();
+					user.userRole = 'employer';
+					user.passwordTrial = '12qwert12';
+					user.userName = 'employer2';
 
-				user = new User();
-				user.userRole = 'employee';
-				user.passwordTrial = '12qwert12';
-				user.userName = 'employee1';
+					user.email = 'ozbegi1@gmail.com';
+					user.contactPhone = '+995 598 260 802';
+					user.fName = 'ირაკლი';
+					user.lName = 'ქართველიშვილი';
 
-				user.email = 'ozbegi1@gmail.com';
-				user.contactPhone = '+995 598 912 900';
-				user.fName = 'ირაკლი';
-				user.lName = 'ასანიძე';
+					user.save((err,employer) =>{
+						console.log('employer added');
+						console.log('userName:  '+employer.userName);
+						console.log('Password:  '+employer.passwordTrial);
 
-				user.save((err,employer) =>{
-					console.log('employer added');
-					console.log('userName:  '+employer.userName);
-					console.log('Password:  '+employer.passwordTrial);
-				});
+						let jobDescription = 'სახლი გავყიდე თბილისში და გადავდივარ რაიონში, მინდა გადავიტანო არსებული ჭურჭელი, ავეჯი, ჭიათურაში, დაახლოებით 180 კმ ია მანძილი, შემომთავაზეთ გადაზიდვის საფასური.';
 
-				user = new User();
-				user.userRole = 'employee';
-				user.passwordTrial = '12qwert12';
-				user.userName = 'employee2';
+						initJobPost(employer,'ავეჯის გადატანა',jobDescription,new Date(2017,1,30),'400 $','Fixed', 'One Time','გადაზიდვა','' )
 
-				user.email = 'ozbegi1@gmail.com';
-				user.contactPhone = '+995 551 445 441';
-				user.fName = 'გიორგი';
-				user.lName = 'ცუცქირიძე';
+					});
 
-				user.save((err,employer) =>{
-					console.log('employer added');
-					console.log('userName:  '+employer.userName);
-					console.log('Password:  '+employer.passwordTrial);
-				});
-		})
+
+					// Add Employees
+
+					user = new User();
+					user.userRole = 'employee';
+					user.passwordTrial = '12qwert12';
+					user.userName = 'employee1';
+
+					user.email = 'ozbegi1@gmail.com';
+					user.contactPhone = '+995 598 912 900';
+					user.fName = 'ირაკლი';
+					user.lName = 'ასანიძე';
+
+					user.save((err,employer) =>{
+						console.log('employer added');
+						console.log('userName:  '+employer.userName);
+						console.log('Password:  '+employer.passwordTrial);
+					});
+
+					user = new User();
+					user.userRole = 'employee';
+					user.passwordTrial = '12qwert12';
+					user.userName = 'employee2';
+
+					user.email = 'ozbegi1@gmail.com';
+					user.contactPhone = '+995 551 445 441';
+					user.fName = 'გიორგი';
+					user.lName = 'ცუცქირიძე';
+
+					user.save((err,employer) =>{
+						console.log('employer added');
+						console.log('userName:  '+employer.userName);
+						console.log('Password:  '+employer.passwordTrial);
+					});
+				}
+			})
+		}
+
 		
 
 	});

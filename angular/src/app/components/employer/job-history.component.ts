@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { JobService} from '../../modules/http/employer/employer.service';
+import { JobService} from '../../modules/http/employer.service';
 import {  JobPost } from '../../modules/models/job';
 
 

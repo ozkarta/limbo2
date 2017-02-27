@@ -1,6 +1,6 @@
 import { Component,OnInit } from '@angular/core';
 
-import { CategoryService ,JobService} from '../../modules/http/employer/employer.service';
+import { CategoryService ,JobService} from '../../modules/http/employer.service';
 import { JobCategory } from '../../modules/models/job-category';
 import {  JobPost } from '../../modules/models/job';
 

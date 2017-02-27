@@ -40,16 +40,28 @@ import { EmployerSubscribeComponent } from  './components/employer/subscribe.com
 import { EmployerOfferComponent } from  './components/employer/offer.component';
 import { EditJobComponent } from  './components/employer/edit-job.component';
 
-//Employee 
+//Employee
 import { EmployeeHomeComponent } from './components/employee/home-component';
+import { EmployeeAccountComponent } from './components/employee/account.component';
+
+import { EmployeeHistoryComponent } from './components/employee/history.component';
+import { EmployeeMessengerComponent } from './components/employee/messenger.component';
+import { EmployeeSubscribeComponent } from './components/employee/subscribe.component';
+import { EmployeeTopWorkerComponent } from './components/employee/top-workers.component';
+import { EmployeeViewWJobComponent } from './components/employee/view-job.component';
+
 // Services
 import { EmployerService } from './modules/http/visitor/employer.service';
 import { EmployeeService } from './modules/http/visitor/employee.service';
 import { Authentication } from './modules/http/visitor/authentication.service';
 
-import { CategoryService , JobService} from './modules/http/employer/employer.service';
+import { CategoryService , JobService} from './modules/http/employer.service';
+import { GenericService } from './modules/http/generic.service';
 
 import { AppRouter } from './Router.component';
+
+import { ChatService } from './modules/http/chat.service';
+import { WebSocketService } from './modules/http/web-socket.service';
 
 
 // Guards
@@ -90,7 +102,13 @@ import { VisitorGuard } from './modules/guards/visitor.guard'
     EmployerOfferComponent,
     EditJobComponent,
     // Employee 
-    EmployeeHomeComponent
+    EmployeeHomeComponent,
+    EmployeeAccountComponent,
+    EmployeeHistoryComponent,
+    EmployeeMessengerComponent,
+    EmployeeSubscribeComponent,
+    EmployeeTopWorkerComponent,
+    EmployeeViewWJobComponent
   ],
   imports: [
     BrowserModule,
@@ -100,7 +118,7 @@ import { VisitorGuard } from './modules/guards/visitor.guard'
   ],
   providers: [
     //
-    EmployerService,EmployeeService,Authentication,
+    EmployerService,EmployeeService,Authentication,ChatService,WebSocketService,GenericService,
     //Guards
     AdminGuard,EmployerGuard,EmployeeGuard,VisitorGuard,
     //registered

@@ -2,7 +2,7 @@ import { Component,OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 
-import { JobService, CategoryService} from '../../modules/http/employer/employer.service';
+import { JobService, CategoryService} from '../../modules/http/employer.service';
 import {  JobPost } from '../../modules/models/job';
 
 import { JobCategory } from '../../modules/models/job-category';

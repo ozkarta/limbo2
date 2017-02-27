@@ -2,9 +2,15 @@ let jobCategory = require('../db/dbModules').jobCategoryModel;
 let jobPost = require('../db/dbModules').jobModel;
 let User = require('../db/dbModules').userModel;
 
+let Proposal = require('../db/dbModules').proposalModel;
+let Currency = require('../db/dbModules').currencyModel;
+let Duration = require('../db/dbModules').durationModel;
+let OfferStatus = require('../db/dbModules').offerStatusModel;
+
 module.exports.initDatabase = function(){
 
 	initJobCategory();
+	indipendentInit();
 }
 
 
@@ -231,6 +237,110 @@ function initJobPost(user,title,description,deadLine,budget,paymentType,projectT
 }
 
 //______________________________________________________________
+function indipendentInit(){
+	Currency.remove({}, function(err,result){
+		let cur = new Currency();
+		cur.country = 'Georgia';
+		cur.currency = 'Gel';
+		cur.currencySymbol = '';
 
+		cur.save(function(){
+			console.log('currency added')
+		});
+
+		let cur2 = new Currency();
+		cur2.country = 'EU';
+		cur2.currency = 'EUR';
+		cur2.currencySymbol = '';
+
+		cur2.save(function(){
+			console.log('currency added')
+		});
+
+		let cur3 = new Currency();
+		cur3.country = 'USA';
+		cur3.currency = 'USD';
+		cur3.currencySymbol = '';
+
+		cur3.save(function(){
+			console.log('currency added')
+		});
+	});
+
+
+	Duration.remove({},function(err,res){
+		//_________________________
+		let dur1 = new Duration();
+		dur1.duration = '1 Week';
+		dur1.durationValue = '1';
+
+		dur1.save(function(err2,saved){
+			console.log('duration added');
+		});
+		//_________________________
+		let dur2 = new Duration();
+		dur2.duration = '2 Weeks';
+		dur2.durationValue = '2';
+
+		dur2.save(function(err2,saved){
+			console.log('duration added');
+		});
+		//_________________________
+		let dur3 = new Duration();
+		dur3.duration = '1 Month';
+		dur3.durationValue = '4';
+
+		dur3.save(function(err2,saved){
+			console.log('duration added');
+		});
+		//_________________________
+		let dur4 = new Duration();
+		dur4.duration = '6 months';
+		dur4.durationValue = '24';
+
+		dur4.save(function(err2,saved){
+			console.log('duration added');			
+		});
+	});
+
+
+	OfferStatus.find({},function(err,result){
+		
+		if (result.length == 0) {
+			OfferStatus.remove({},function(err1,res1){
+				let stat1 = new OfferStatus();
+				stat1.status = 'proposed';
+				stat1.statusValue = '1';
+
+				let stat2 = new OfferStatus();
+				stat2.status = 'declined';
+				stat2.statusValue = '2';
+
+				let stat3 = new OfferStatus();
+				stat3.status = 'interviewing';
+				stat3.statusValue = '3';
+
+				let stat4 = new OfferStatus();
+				stat4.status = 'accepted';
+				stat4.statusValue = '4';
+
+				stat1.save(function(err,res){
+					console.log('Offer Status saved');
+				});
+				stat2.save(function(err,res){
+					console.log('Offer Status saved');
+				});
+				stat3.save(function(err,res){
+					console.log('Offer Status saved');
+				});
+				stat4.save(function(err,res){
+					console.log('Offer Status saved');
+				});
+
+
+			})
+		}
+	})
+}
 
 

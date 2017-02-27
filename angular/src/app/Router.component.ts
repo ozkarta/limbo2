@@ -37,6 +37,13 @@ import { EmployerOfferComponent } from  './components/employer/offer.component';
 import { EditJobComponent } from  './components/employer/edit-job.component';
 //Employee
 import { EmployeeHomeComponent } from './components/employee/home-component';
+import { EmployeeAccountComponent } from './components/employee/account.component';
+
+import { EmployeeHistoryComponent } from './components/employee/history.component';
+import { EmployeeMessengerComponent } from './components/employee/messenger.component';
+import { EmployeeSubscribeComponent } from './components/employee/subscribe.component';
+import { EmployeeTopWorkerComponent } from './components/employee/top-workers.component';
+import { EmployeeViewWJobComponent } from './components/employee/view-job.component';
 // Guards
 import { AdminGuard } from './modules/guards/admin.guard'
 import { EmployeeGuard } from './modules/guards/employee.guard'
@@ -138,6 +145,36 @@ const routes: Routes = [
                 component: EmployeeHomeComponent,
                 canActivate: [EmployeeGuard]
             },
+            {
+                path: 'employee/history',
+                component: EmployeeHistoryComponent,
+                canActivate: [EmployeeGuard]
+            },
+            {
+                path: 'employee/messenger',
+                component: EmployeeMessengerComponent,
+                canActivate: [EmployeeGuard]
+            },
+            {
+                path: 'employee/account',
+                component: EmployeeAccountComponent,
+                canActivate: [EmployeeGuard]
+            },
+            {
+                path: 'employee/topworker',
+                component: EmployeeTopWorkerComponent,
+                canActivate: [EmployeeGuard]
+            },
+            {
+                path: 'employee/subscribes',
+                component: EmployeeSubscribeComponent,
+                canActivate: [EmployeeGuard]
+            },
+            {
+                path: 'employee/viewjob/:jobName/:id',
+                component: EmployeeViewWJobComponent,
+                canActivate: [EmployeeGuard]
+            }
 
             // Admin Routes
             

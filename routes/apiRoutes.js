@@ -3,6 +3,8 @@ let apiRouteFunctions = require('./routeFunctions/apiRouteFunctions.js');
 
 let router = express.Router();
 //  Default Route is /api/
+
+
 router.route('/employees')
 	.get(apiRouteFunctions.getEmployees);
 
@@ -18,6 +20,11 @@ router.route('/logIn')
 router.route('/category')
 	.get(apiRouteFunctions.getCategoryList);
 
+router.route('/currency')
+	.get(apiRouteFunctions.getCurrencyList);
+
+router.route('/duration')
+	.get(apiRouteFunctions.getDurationList);
 
 
 // Employer 
@@ -32,6 +39,9 @@ router.route('/employer/userpostedjoblist')
 
 router.route('/employer/userpostedjob')
 	.post(apiRouteFunctions.getUserPostedJobWithId);
+
+router.route('/employer/searchresult')
+		.post(apiRouteFunctions.getSearchResult);
 //_____________________________________________________
 
 module.exports = router;

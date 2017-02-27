@@ -18,7 +18,7 @@ let apiRouter = require('./routes/apiRoutes.js');
 let employeeRouter = require('./routes/employeeRoutes.js');
 let employerRouter = require('./routes/employerRoutes.js');
 let visitorRouter = require('./routes/visitorRoutes.js');
-
+let webSocketHandler = require('./routes/webSocket.js').webSocketHandler;
 
 let initDB = require('./classes/initDB');
 //  App
@@ -113,6 +113,5 @@ let server = app.listen(port, () =>{
 //											WS
 //  ______________________________________________________________________________________________
 let wss =new WebSocketServer({ server: server });
-wss.on('connection', function inComming(message){
 
-});
+wss.on('connection', webSocketHandler);

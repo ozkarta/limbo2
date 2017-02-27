@@ -7,8 +7,8 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
-import { JobCategory } from '../../models/job-category';
-import { JobPost } from '../../models/job';
+import { JobCategory } from '../models/job-category';
+import { JobPost } from '../models/job';
 
 
 @Injectable()

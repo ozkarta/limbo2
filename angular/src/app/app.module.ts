@@ -62,7 +62,7 @@ import { AppRouter } from './Router.component';
 
 import { ChatService } from './modules/http/chat.service';
 import { WebSocketService } from './modules/http/web-socket.service';
-
+import { EmployeeJobService } from './modules/http/employee.service';
 
 // Guards
 import { AdminGuard } from './modules/guards/admin.guard'
@@ -118,7 +118,9 @@ import { VisitorGuard } from './modules/guards/visitor.guard'
   ],
   providers: [
     //
-    EmployerService,EmployeeService,Authentication,ChatService,WebSocketService,GenericService,
+    EmployerService,EmployeeService,Authentication,
+    ChatService,WebSocketService,GenericService,
+    EmployeeJobService,
     //Guards
     AdminGuard,EmployerGuard,EmployeeGuard,VisitorGuard,
     //registered

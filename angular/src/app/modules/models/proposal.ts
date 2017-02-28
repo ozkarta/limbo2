@@ -1,5 +1,5 @@
 export class Proposal{
-
+    hostJobID: string;
     candidateID: string;
     price: string;
     currency: string;
@@ -9,6 +9,7 @@ export class Proposal{
     offerStatus: string;
 
     constructor(){
+        this.hostJobID = '';
         this.candidateID = '';
         this.price = '';
         this.currency = '';

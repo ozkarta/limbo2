@@ -25,7 +25,11 @@ router.route('/currency')
 
 router.route('/duration')
 	.get(apiRouteFunctions.getDurationList);
+router.route('/job')
+	.get(apiRouteFunctions.getJobWithId);
 
+router.route('/job/:id')
+	.get(apiRouteFunctions.getJobWithId);
 
 // Employer 
 router.route('/employer/job')
@@ -42,6 +46,10 @@ router.route('/employer/userpostedjob')
 
 router.route('/employer/searchresult')
 		.post(apiRouteFunctions.getSearchResult);
+// Employee
+router.route('/employee/sendproposal')
+	.post(apiRouteFunctions.sendProposal);
 //_____________________________________________________
+
 
 module.exports = router;

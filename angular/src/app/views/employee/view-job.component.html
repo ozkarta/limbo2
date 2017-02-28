@@ -44,15 +44,32 @@
 
         <div class="col-md-8">
             <div class="product-title">
-                <h1>title</h1>
+                <h1>{{jobPost.jobTitle}}</h1>
             </div>
             <div class="product-desc">
 
-                <h3>description</h3>
+                <h3>{{jobPost.jobDescription}}</h3>
 
             </div>
+            <div>
+                payment type
+                <h2>{{jobPost.paymentType}}</h2>
+            </div>
             <div class="product-price">
-                Job Budget : 123$
+                Job Budget : {{jobPost.budget}}  {{jobPost.currency}}
+            </div>
+
+            <div>
+                create date
+                {{jobPost.createdAt}}
+            </div>
+            <div>
+                deadline
+                {{jobPost.deadline}}
+            </div>
+            <div>
+                project type
+                <h2>{{jobPost.projectType}}</h2>
             </div>
         </div>
 
@@ -69,7 +86,7 @@
                                 <a href="#about" data-toggle="tab">About Client</a>
                             </li>
 
-                            <li><a href="#changeproposal" data-toggle="tab">Change Proposal Terms</a>
+                            <li [ngStyle] = "changeApplyVisibility"><a href="#changeproposal" data-toggle="tab">Change Proposal Terms</a>
 
                             </li>
 
@@ -77,7 +94,7 @@
 
                             </li>
 
-                            <li><a href="#apply" data-toggle="tab">Apply for this job</a>
+                            <li [ngStyle] = "applyVisibility"><a href="#apply" data-toggle="tab">Apply for this job</a>
 
                             </li>
 
@@ -100,23 +117,15 @@
             </div>
         </div>
 
-        <div class="col-sm-9 tab-content" id="changeproposal">
-            <div class="form-group">
-                <label class="form-control">client fname</label>
-            </div>
-            <div class="form-group">
-                <label class="form-control">client lname</label>
-            </div>
-            <div class="form-group">
-                <label class="form-control">last visited</label>
-            </div>
+        <div class="col-sm-9 tab-content" id="changeproposal" *ngIf="alreadyApplied">
+           Change Proposal Terms
         </div>
 
         <div class="col-sm-9 tab-content" id="progress">
             JOB progress
         </div>
 
-        <div class="col-sm-9 tab-content" id="apply">
+        <div class="col-sm-9 tab-content" id="apply" *ngIf="!alreadyApplied">
             <form (ngSubmit)="sendProposal()" >
 
                

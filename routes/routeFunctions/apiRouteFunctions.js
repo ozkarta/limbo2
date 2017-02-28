@@ -3,7 +3,7 @@ let jobPost = require('../../db/dbModules').jobModel;
 let User = require('../../db/dbModules').userModel;
 let Duration = require('../../db/dbModules').durationModel;
 let Currency = require('../../db/dbModules').currencyModel;
-
+let Proposal = require('../../db/dbModules').proposalModel;
 
 module.exports.getEmployees = function (req, res, next) {
 	User.find({ userRole: 'employee' }, (err, result) => {
@@ -494,7 +494,83 @@ module.exports.getDurationList = function(req, res, next){
 	});
 }
 
+module.exports.getJobWithId = function(req, res, next){
+	console.log(req);
+	let id = '';
+	if (req.params.id){
+		id = req.params.id;
+	}
+	if (req.query.id){
+		id = req.query.id;
+	}
+	if (id){
+		jobPost.findOne({_id:id})
+				.populate('proposals')
+				.exec(function(err,result){
+						if(err){
+							return res.send({status:'500',message:'internal server error'});
+						}
+						return res.send({status:200,message:'ok',result:result});
+					});
+	}else{
+		return res.send({status:'400',message:'ID is not provided'});
+	}
+	
+	
+}
 
+
+module.exports.sendProposal = function(req, res, next){
+	console.dir(req.body);
+	
+
+
+	if (!req.body){
+		return res.send({status:400,message:'No Body presented'});
+	}
+	if (!req.body.proposal){
+		return res.send({status:400,message:'No Body presented'});
+	}else{
+		jobPost.findOne({_id:req.body.proposal.hostJobID}, jobSearchCallback)
+	}
+
+	function jobSearchCallback(err,job){
+		if(err){
+			return res.send({status:'500',message:'Internal Server Error'});
+		}
+		if(job){
+			let proposal = new Proposal();
+			proposal.candidate = req.body.proposal.candidateID;
+			proposal.price = req.body.proposal.price;
+			proposal.currency = req.body.proposal.currency;
+			proposal.duration = req.body.proposal.duration;
+			proposal.coverLetter = req.body.proposal.coverLetter;
+			proposal.whyToChoose = req.body.proposal.whyToChoose;
+			proposal.offerStatus = req.body.proposal.offerStatus;
+
+			proposal.save(function(err,proposalSaved){
+				if(proposalSaved){
+					job.proposals.push(proposalSaved)
+					job.save(function(err,jobSaved){
+						if(jobSaved){
+							return res.send({status:200,message:'proposal saved'});
+						}else{
+							return res.send({status:500,message:'internal server error'});
+						}
+					})
+				}else{
+					return res.send({status:500,message:'internal server error'});
+				}
+			})
+		}else{
+			res.send({status:400,message:'parameters  not correct'});
+		}
+	}
+
+
+
+
+}
 
 
 //_______________________________HELPERS_____________________________

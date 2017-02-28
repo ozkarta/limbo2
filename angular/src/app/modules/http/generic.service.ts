@@ -162,6 +162,52 @@ export class GenericService {
 
     }
 
+    getJobWithID(id):Observable<JobPost>{
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
+
+        return this.http.get(this.genericURL + 'api/job/'+id)
+            .map(this.getJobWithIDExtractor)
+            .catch(this.handleError);
+    }
+
+    private getJobWithIDExtractor(res: Response){
+        
+        console.dir(res);
+        let body = res.json();
+        console.dir(body);
+        let job = new JobPost();
+
+        if (body.result){
+            job.id = body.result._id;
+            job.jobCategory = body.result.jobCategory;
+            job.jobSubCategory = body.result.jobSubCategory;
+            job.owner = body.result.owner;
+            job.jobTitle = body.result.jobTitle;
+            job.jobDescription = body.result.jobDescription;
+            job.deadline = body.result.deadLine;
+            job.budget = body.result.budget;
+            job.paymentType = body.result.paymentType;
+            job.projectType = body.result.projectType;
+            job.status = body.result.status;
+            job.requirements = body.result.requirements;
+            job.candidates = body.result.candidates;
+            job.imageURLList = body.result.imageURLList;
+            job.atachmentList = body.result.atachmentList;
+
+            job.currency = body.result.currency;
+            job.createdAt = body.result.createdAt;
+            job.updatedAt = body.result.updatedAt;
+
+            for(let proposer of body.result.proposals){
+                job.proposals.push(proposer.candidate);
+            }
+             
+        }
+
+        return job;
+    }
+
     private handleError(error: Response | any) {
         let errMsg: string;
         if (error instanceof Response) {

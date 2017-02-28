@@ -19,6 +19,8 @@ export class JobPost{
     createdAt: string;
     updatedAt: string;
 
+    proposals: any[];
+
     constructor(){
         this.id = '';
         this.jobCategory = '';
@@ -39,6 +41,8 @@ export class JobPost{
         this.currency = '';
         this.createdAt = '';
         this.updatedAt = '';
+
+        this.proposals = [];
     }
 
 }

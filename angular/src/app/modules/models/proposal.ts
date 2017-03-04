@@ -1,19 +1,25 @@
+import { Currency } from './currency';
+import { Duration } from './duration';
+import { Candidate } from './candidate';
+
 export class Proposal{
+    id: string;
     hostJobID: string;
-    candidateID: string;
+    candidate: Candidate;
     price: string;
-    currency: string;
-    duration: string;
+    currency: Currency;
+    duration: Duration;
     coverLetter: string;
     whyToChoose: string;
     offerStatus: string;
 
     constructor(){
+        this.id = '';
         this.hostJobID = '';
-        this.candidateID = '';
+        this.candidate = new Candidate();
         this.price = '';
-        this.currency = '';
-        this.duration = '';
+        this.currency = new Currency();
+        this.duration = new Duration();
         this.coverLetter = '';
         this.whyToChoose = '';
         this.offerStatus = '';

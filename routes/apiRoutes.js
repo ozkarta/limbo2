@@ -46,9 +46,17 @@ router.route('/employer/userpostedjob')
 
 router.route('/employer/searchresult')
 		.post(apiRouteFunctions.getSearchResult);
+
+router.route('/employer/offers')
+	.post(apiRouteFunctions.getEmployerSpecificOffers);
+	
 // Employee
 router.route('/employee/sendproposal')
 	.post(apiRouteFunctions.sendProposal);
+
+// Messenger
+router.route('/messenger/startconversation')
+	.post(apiRouteFunctions.startConversation);
 //_____________________________________________________
 
 

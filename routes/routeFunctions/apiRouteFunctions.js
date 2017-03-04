@@ -4,6 +4,8 @@ let User = require('../../db/dbModules').userModel;
 let Duration = require('../../db/dbModules').durationModel;
 let Currency = require('../../db/dbModules').currencyModel;
 let Proposal = require('../../db/dbModules').proposalModel;
+let Conversation = require('../../db/dbModules').conversationModel;
+
 
 module.exports.getEmployees = function (req, res, next) {
 	User.find({ userRole: 'employee' }, (err, result) => {
@@ -568,6 +570,114 @@ module.exports.sendProposal = function(req, res, next){
 	}
 
 
+
+
+}
+
+
+module.exports.getEmployerSpecificOffers = function(req, res, next){
+	console.dir(req.body);
+
+	if (!req.body){
+		return res.send({status:400,message:'User Not presented'});
+		next();
+	}
+
+	if (!req.body.user){
+			return res.send({status:400,message:'User Not presented'});
+			next();
+	}
+
+	if (req.body.user){
+		jobPost.find({owner:req.body.user._id})
+				.populate({
+					path:'proposals',
+					model:'Proposal',
+					populate: [
+					{
+						path:'candidate',
+						model:'User'
+					},
+					{
+						path: 'currency',
+						model: 'Currency',
+					},
+					{
+						path: 'duration',
+						model: 'Duration'
+					}
+					]
+				})
+				.exec(function (err, result){
+					if (err){
+						return res.send({status:500,message:'Internal Server Error'});
+					}else{
+
+
+						return res.send({status:200,message:'OK',result:result});
+					}
+				});
+	}
+
+
+
+	
+}
+
+module.exports.startConversation = function(req, res, next){
+	console.dir(req.body);
+	console.log('conversation started....');
+
+	let sender;
+	let candidate;
+	let subjectJob;
+	if (!req.body){
+		return res.send({status:400,message:'body not presented'});
+	}
+
+	if (!req.body.candidate){
+		return res.send({status:400,message:'body not presented'});
+	}else{
+		candidate = req.body.candidate;
+	}
+
+	if (!req.body.subjectJob){
+		return res.send({status:400,message:'body not presented'});
+	}else{
+		subjectJob = req.body.subjectJob;
+	}
+
+	if (!req.body.sender){
+		return res.send({status:400,message:'body not presented'});
+	}else{
+		sender = req.body.sender;
+	}
+
+
+	Conversation.findOne({$and:[{subject:subjectJob},{$and:[{chatters:sender},{chatters:candidate}]} ]}, function conversationLoookup(err, conversation){
+		if(err){
+			return res.send({status:500,message:'internal server error'});
+		}else{
+			if (conversation){
+				console.log('conversation exists....');
+				console.dir(conversation);
+
+				return res.send({status:200,message:'ok',conversation:{conversationId:conversation.id}});
+			}else{
+				console.log('creating new conversation...');
+				let newConversation = new Conversation();
+				newConversation.chatters.push(sender);
+				newConversation.chatters.push(candidate);
+				newConversation.subject = subjectJob;
+
+				newConversation.save(function saveConversation(err, savedConversation){
+					console.dir(savedConversation);
+					return res.send({status:200,message:'ok',conversation:{conversationId:savedConversation.id}});
+				})
+			}
+			
+		}
+	});
 
 
 }

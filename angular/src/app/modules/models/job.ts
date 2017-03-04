@@ -1,3 +1,5 @@
+import { Proposal } from './proposal';
+
 export class JobPost{
     id: string;
     jobCategory: string;
@@ -19,7 +21,7 @@ export class JobPost{
     createdAt: string;
     updatedAt: string;
 
-    proposals: any[];
+    proposals: Proposal[];
 
     constructor(){
         this.id = '';

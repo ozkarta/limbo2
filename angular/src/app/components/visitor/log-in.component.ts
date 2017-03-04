@@ -7,7 +7,7 @@ import { Authentication } from '../../modules/http/visitor/authentication.servic
 @Component({
   selector: 'app-root',
   templateUrl: '../../views/visitor/log-in.component.html',
-  styleUrls: []
+  styleUrls: ['../../styles/visitor/log-in.style.css']
 })
 export class LogInComponent {
   title = 'app works!';

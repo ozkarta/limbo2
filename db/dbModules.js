@@ -156,7 +156,7 @@ let conversationSchema = new Schema({
 	});
 
 let messageSchema = new Schema({
-	sender: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+	sender: { type: Schema.Types.ObjectId, ref: 'User' },
 	text: String,
 	seenBy: [{ type: Schema.Types.ObjectId, ref: 'User' }],
 	deliveredAt: String,

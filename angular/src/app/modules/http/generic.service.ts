@@ -7,6 +7,8 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
+import { GenericHttp } from './generic.http.service';
+
 import { JobCategory } from '../models/job-category';
 import { JobPost } from '../models/job';
 import { SearchModel } from '../models/search.model';
@@ -15,13 +17,18 @@ import { Duration } from '../models/duration';
 import { Currency } from '../models/currency';
 
 
+
 @Injectable()
-export class GenericService {
-    private genericURL: string;
+export class GenericService extends GenericHttp{
+    
 
 
     constructor(private http: Http) {
-        this.genericURL = 'http://localhost:3311/';
+        super();
+
+        
+
+        
     }
 
 
@@ -30,7 +37,7 @@ export class GenericService {
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
 
-        return this.http.get(this.genericURL + 'api/category')
+        return this.http.get(this.genericAPI_url + '/category')
             .map(this.extractData)
             .catch(this.handleError);
 
@@ -72,7 +79,7 @@ export class GenericService {
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
 
-        return this.http.get(this.genericURL + 'api/duration')
+        return this.http.get(this.genericAPI_url + '/duration')
             .map(this.extractDurationData)
             .catch(this.handleError);
     }
@@ -99,7 +106,7 @@ export class GenericService {
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
 
-        return this.http.get(this.genericURL + 'api/currency')
+        return this.http.get(this.genericAPI_url + '/currency')
             .map(this.extractCurrencyData)
             .catch(this.handleError);
     }
@@ -126,7 +133,7 @@ export class GenericService {
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
 
-        return this.http.post(this.genericURL + 'api/employer/searchresult', { search }, options)
+        return this.http.post(this.genericAPI_url + '/employer/searchresult', { search }, options)
             .map(this.extractSearchData)
             .catch(this.handleError);
     }
@@ -166,7 +173,7 @@ export class GenericService {
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
 
-        return this.http.get(this.genericURL + 'api/job/'+id)
+        return this.http.get(this.genericAPI_url + '/job/'+id)
             .map(this.getJobWithIDExtractor)
             .catch(this.handleError);
     }

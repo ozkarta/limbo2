@@ -7,17 +7,24 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
+import { GenericHttp } from './generic.http.service';
+
 import { JobCategory } from '../models/job-category';
 import { JobPost } from '../models/job';
 
+import { Proposal } from '../models/proposal';
+import { Candidate } from '../models/candidate';
+import { Currency } from '../models/currency';
+import { Duration } from '../models/duration';
 
 @Injectable()
-export class CategoryService{
+export class CategoryService extends GenericHttp{
 
     url: string;
     //categoryList: JobCategory[];
 
     constructor(private http: Http){
+        super();
         this.url = 'http://localhost:3311/api/category';
         //this.categoryList = [];
     }
@@ -81,10 +88,11 @@ export class CategoryService{
 }
 
 @Injectable()
-export class JobService{
+export class JobService extends GenericHttp{
     url: string;
 
     constructor(private http: Http){
+        super();
         this.url = 'http://localhost:3311/api/employer/job';
     }
 
@@ -235,4 +243,133 @@ export class JobService{
         console.error(errMsg);
         return Observable.throw(errMsg);
     }
+}
+
+@Injectable()
+export class OfferService extends GenericHttp{
+    
+
+    constructor(private http: Http){
+        super();
+        
+    }
+
+
+    getOfferListEmployerSpecific(): Observable<JobPost[]>{
+         let headers = new Headers({ 'Content-Type': 'application/json' });
+         let options = new RequestOptions({ headers: headers });
+
+         let user =JSON.parse(localStorage.getItem('currentUser'));
+
+
+         return this.http.post(this.genericAPI_url + '/employer/offers',{user},options)
+            .map(this.getOfferListEmployerSpecificExtractor)
+            .catch(this.handleError);
+    }
+
+    private getOfferListEmployerSpecificExtractor(res: Response){
+        let body = res.json();
+        console.dir(body);
+        let jobArray : JobPost [] = [];
+
+        if(body.result){
+            for(let job of body.result){
+                let j: JobPost = new JobPost();
+
+                j.id = job._id;
+                j.jobCategory = job.jobCategory;
+                j.jobSubCategory = job.jobSubCategory;
+                j.owner = job.owner;
+                j.jobTitle = job.jobTitle;
+                j.jobDescription = job.jobDescription;
+                j.deadline = job.deadLine;
+                j.budget = job.budget;
+                j.paymentType = job.paymentType;
+                j.projectType = job.projectType;
+                j.status = job.status;
+                j.requirements = job.requirements;
+                j.candidates = job.candidates;
+                j.imageURLList = job.imageURLList;
+                j.atachmentList = job.atachmentList;
+                j.currency = job.currency;
+
+                j.createdAt = job.createdAt;
+                j.updatedAt = job.updatedAt;
+                
+
+                for(let proposal of job.proposals){
+                    let p = new Proposal();
+
+                    
+                    p.id = proposal._id;
+                    p.hostJobID = job._id;
+
+                    if (proposal.candidate){
+
+                        p.candidate.id = proposal.candidate._id;
+                        p.candidate.contactPhone =  proposal.candidate.contactPhone;
+                        p.candidate.createdAt =  proposal.candidate.createdAt;
+                        p.candidate.updatedAt =  proposal.candidate.updatedAt;
+
+                        p.candidate.userName = proposal.candidate.userName;
+                        p.candidate.email = proposal.candidate.email;
+                        p.candidate.fName = proposal.candidate.fName;
+                        p.candidate.lName = proposal.candidate.lName;
+                        p.candidate.userRole = proposal.candidate.userRole;
+                        p.candidate.feadback = proposal.candidate.feadback;
+                        
+                        p.candidate.portfolio = proposal.candidate.portfolio;
+                        p.candidate.services = proposal.candidate.services;
+                        p.candidate.subscribes = proposal.candidate.subscribes;
+                        p.candidate.subscribers = proposal.candidate.subscribers;
+                    }
+                    p.price = proposal.price;
+                    
+
+                    if(proposal.currency){
+                        p.currency.id = proposal.currency._id;
+                        p.currency.country = proposal.currency.country;
+                        p.currency.currency = proposal.currency.currency;
+                        p.currency.currencySymbol = proposal.currency.currencySymbol;
+                    }
+                    if(proposal.duration){
+                        p.duration.id = proposal.duration._id;
+                        p.duration.duration = proposal.duration.duration;
+                        p.duration.durationValue = proposal.duration.durationValue;
+                    }
+                    p.coverLetter = proposal.coverLetter;
+                    p.whyToChoose = proposal.whyToChoose;
+                    p.offerStatus = proposal.offerStatus;
+
+                    j.proposals.push(p);
+                }
+
+                jobArray.push(j);
+
+                
+            }
+
+            return jobArray;
+
+
+        }else{
+            return null;
+        }
+        
+
+    }
+
+    private handleError(error: Response | any) {
+        let errMsg: string;
+        if (error instanceof Response) {
+            const body = error.json() || '';
+            const err = body.error || JSON.stringify(body);
+            errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
+        } else {
+            errMsg = error.message ? error.message : error.toString();
+        }
+        console.error(errMsg);
+        return Observable.throw(errMsg);
+    }
+
 }

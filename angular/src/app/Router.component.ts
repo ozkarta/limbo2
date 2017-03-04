@@ -112,6 +112,11 @@ const routes: Routes = [
                 canActivate: [EmployerGuard]
             },
             {
+                path: 'employer/messenger/:id',
+                component: EmployerMessengerComponent,
+                canActivate: [EmployerGuard]
+            },
+            {
                 path: 'employer/offers',
                 component: EmployerOfferComponent,
                 canActivate: [EmployerGuard]

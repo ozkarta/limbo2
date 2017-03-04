@@ -12,14 +12,14 @@ import { Authentication } from './authentication.service';
 @Injectable()
 export class EmployeeService extends Authentication{
 
-    apiURL: string;
+    
 
     //____________________________________________________________________
 
     constructor (private http1: Http){
 
         super(http1);
-        this.apiURL = 'http://localhost:3311/api/register/employee';
+        
 
     }
     //____________________________________________________________________
@@ -29,7 +29,7 @@ export class EmployeeService extends Authentication{
         let headers = new Headers({'Content-Type':'application/json'});
         let options = new RequestOptions({headers:headers});
         
-        return this.http1.post(this.apiURL,{ employee },options)
+        return this.http1.post(this.genericAPI_url+'/register/employee',{ employee },options)
                         .map(this.extractData)
                         .catch(this.handleError);
     }

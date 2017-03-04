@@ -8,7 +8,7 @@ import { EmployeeService } from '../../modules/http/visitor/employee.service';
 @Component({
   selector: '',
   templateUrl: '../../views/visitor/register-employee.component.html',
-  styleUrls: []
+  styleUrls: ['../../styles/visitor/register-employee.style.css']
 })
 export class RegisterEmployeeComponent {
   title = 'app works!';

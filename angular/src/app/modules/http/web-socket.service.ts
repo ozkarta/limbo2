@@ -2,15 +2,16 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import * as Rx from 'rxjs';
 
+import { GenericHttp } from './generic.http.service';
 
 @Injectable()
-export class WebSocketService{
+export class WebSocketService extends GenericHttp{
 
     private socket: Rx.Subject<MessageEvent>;
 
 
     constructor(){
-        
+        super();
     }
 
     public connect(url): Rx.Subject<MessageEvent> {

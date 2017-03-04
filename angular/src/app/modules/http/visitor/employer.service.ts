@@ -6,12 +6,16 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
+import { GenericHttp } from '../generic.http.service';
+
 import { Employer } from '../../employerRegistrationModel';
 
 @Injectable()
-export class EmployerService{
+export class EmployerService extends GenericHttp{
 
-    constructor (private http: Http){}
+    constructor (private http: Http){
+        super();
+    }
     
 
 
@@ -19,7 +23,7 @@ export class EmployerService{
         let headers = new Headers({'Content-Type':'application/json'});
         let options = new RequestOptions({headers:headers});
         
-        return this.http.post('http://localhost:3311/api/register/employer',{ employer },options)
+        return this.http.post(this.genericAPI_url+'/register/employer',{ employer },options)
                         .map(this.extractData)
                         .catch(this.handleError);
     }

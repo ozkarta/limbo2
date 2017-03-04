@@ -5,7 +5,7 @@ import { ChatService } from '../../modules/http/chat.service';
 @Component({
   selector: 'employer',
   templateUrl: '../../views/employer/employer-navbar.component.html',
-  styleUrls: []
+  styleUrls: ['../../styles/employer/employer-navbar.style.css']
 })
 export class EmployerNavbarComponent {
   title = 'app works!';

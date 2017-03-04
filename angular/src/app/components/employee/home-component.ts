@@ -7,7 +7,7 @@ import { JobPost } from '../../modules/models/job'
 @Component({
   selector: 'app-root',
   templateUrl: '../../views/employee/home.component.html',
-  styles: []
+  styleUrls: ['../../styles/employee/home.style.css']
 })
 export class EmployeeHomeComponent extends OnInit{
   title = 'app works!';

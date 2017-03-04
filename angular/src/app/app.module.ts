@@ -64,6 +64,8 @@ import { ChatService } from './modules/http/chat.service';
 import { WebSocketService } from './modules/http/web-socket.service';
 import { EmployeeJobService } from './modules/http/employee.service';
 
+import { OfferService } from './modules/http/employer.service';
+
 // Guards
 import { AdminGuard } from './modules/guards/admin.guard'
 import { EmployeeGuard } from './modules/guards/employee.guard'
@@ -120,7 +122,7 @@ import { VisitorGuard } from './modules/guards/visitor.guard'
     //
     EmployerService,EmployeeService,Authentication,
     ChatService,WebSocketService,GenericService,
-    EmployeeJobService,
+    EmployeeJobService,OfferService,
     //Guards
     AdminGuard,EmployerGuard,EmployeeGuard,VisitorGuard,
     //registered

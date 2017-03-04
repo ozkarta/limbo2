@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-root',
   templateUrl: '../../views/employee/subscribe.component.html',
-  styles: []
+  styleUrls: ['../../styles/employee/subscribe.style.css']
 })
 export class EmployeeSubscribeComponent {
   title = 'app works!';

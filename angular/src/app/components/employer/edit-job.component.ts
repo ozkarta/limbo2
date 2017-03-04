@@ -9,7 +9,7 @@ import { JobCategory } from '../../modules/models/job-category';
 
 @Component({
   templateUrl: '../../views/employer/edit-job.component.html',
-  styleUrls: []
+  styleUrls: ['../../styles/employer/edit-job.style.css']
 })
 export class EditJobComponent extends OnInit{
   title = 'app works!';

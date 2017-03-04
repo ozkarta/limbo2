@@ -7,9 +7,10 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
+import { GenericHttp } from '../generic.http.service';
 @Injectable()
-export class Authentication{
-    logInURL: string;
+export class Authentication extends GenericHttp{
+    
 
     userName: String;
     password: String;
@@ -19,8 +20,9 @@ export class Authentication{
         
     //____________________________________________________________
     constructor(private http: Http){
+        super();
 
-        this.logInURL = "http://localhost:3311/api/logIn";
+        
         this.self = this;
     }
     //____________________________________________________________
@@ -31,7 +33,7 @@ export class Authentication{
             let options = new RequestOptions({headers:headers});
 
 
-            return this.http.post(this.logInURL,{ userName:this.userName,password:this.password },options)
+            return this.http.post(this.genericAPI_url+'/logIn',{ userName:this.userName,password:this.password },options)
                         .map(this.extractData)
                         .catch(this.handleError);
         }else{

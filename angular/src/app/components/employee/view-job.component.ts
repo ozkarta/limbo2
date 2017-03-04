@@ -14,7 +14,7 @@ import { JobPost } from '../../modules/models/job'
 @Component({
     selector: 'app-root',
     templateUrl: '../../views/employee/view-job.component.html',
-    styles: []
+    styleUrls: ['../../styles/employee/view-job.style.css']
 })
 export class EmployeeViewWJobComponent  extends OnInit implements AfterViewInit{
     title = 'app works!';
@@ -60,7 +60,8 @@ export class EmployeeViewWJobComponent  extends OnInit implements AfterViewInit{
                     
                     this.currencyList = cur;
                     console.dir(this.currencyList);
-                    this.proposal.currency = this.currencyList[0].id;
+                    this.proposal.currency = new Currency();
+                    this.proposal.currency.id = this.currencyList[0].id;
                     
                    },
                 (err) =>{
@@ -73,7 +74,8 @@ export class EmployeeViewWJobComponent  extends OnInit implements AfterViewInit{
                 (dur) =>{
                     console.dir(dur);
                     this.durationList = dur;
-                    this.proposal.duration = this.durationList[0].id;
+                    this.proposal.duration = new Duration();
+                    this.proposal.duration.id = this.durationList[0].id;
                     
                 },
                 (err) =>{
@@ -98,7 +100,7 @@ export class EmployeeViewWJobComponent  extends OnInit implements AfterViewInit{
 
     sendProposal(){
         let user = JSON.parse(localStorage.getItem('currentUser'));
-        this.proposal.candidateID = user._id;
+        this.proposal.candidate.id = user._id;
         this.proposal.hostJobID = this.jobPost.id;
 
 

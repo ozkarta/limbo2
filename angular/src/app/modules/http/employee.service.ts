@@ -7,6 +7,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
+import { GenericHttp } from './generic.http.service';
 
 import { Proposal } from '../models/proposal';
 import { Duration } from '../models/duration';
@@ -15,11 +16,12 @@ import { GenericService } from '../http/generic.service';
 
 
 @Injectable()
-export class EmployeeJobService{
-    private genericURL: string;
+export class EmployeeJobService extends GenericHttp{
+    
 
     constructor(private http: Http){
-        this.genericURL = 'http://localhost:3311/';
+        super();
+        
     }
 
 
@@ -28,7 +30,7 @@ export class EmployeeJobService{
         let options = new RequestOptions({ headers: headers });
 
 
-        return this.http.post(this.genericURL + 'api/employee/sendproposal',{proposal},options)
+        return this.http.post(this.genericAPI_url + '/employee/sendproposal',{proposal},options)
             .map(this.afterSendProposal)
             .catch(this.handleError);
     }
